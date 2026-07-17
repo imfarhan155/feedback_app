@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+
+import 'firebase_options.dart';
 import 'splash_screen.dart';
 
 // ✨ Global notifier jo puri app ka theme control karega
@@ -9,14 +11,9 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   try {
-    // 🚀 Firebase Manual Initialization
+    // 🚀 Firebase Initialization
     await Firebase.initializeApp(
-      options: const FirebaseOptions(
-        apiKey: 'AIzaSyDsN_m7mXd-96yvsT5oRUNkUBphiQd-v1c',
-        appId: '1:484421635706:android:17bf995413fecb71f8f5c3',
-        messagingSenderId: '484421635706',
-        projectId: 'feedback-app-6e7b4',
-      ),
+      options: DefaultFirebaseOptions.currentPlatform,
     );
 
     // ⏱️ Native startup screen/icon ko thodi der screen par rokne ke liye delay
@@ -33,7 +30,6 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // ValueListenableBuilder har dafa theme switch hone par UI refresh karega
     return ValueListenableBuilder<ThemeMode>(
       valueListenable: themeNotifier,
       builder: (_, currentMode, __) {
@@ -64,7 +60,7 @@ class MyApp extends StatelessWidget {
             cardTheme: const CardThemeData(color: Color(0xFF1E1E1E)),
           ),
 
-          themeMode: currentMode, // Dynamic theme state link
+          themeMode: currentMode,
           home: const SplashScreen(),
         );
       },
